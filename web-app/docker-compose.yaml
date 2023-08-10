@@ -1,0 +1,27 @@
+version: '3'
+services:
+  flaskapp:
+    build: ./
+    command: python3 app.py run -h 0.0.0.0
+    ports:
+      - 5000:5001
+    volumes:
+      - ./:/app
+
+    stdin_open: true
+    depends_on: 
+      - db
+    tty: true
+    restart: always
+
+  db: 
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgres/data/
+    env_file:
+      - ./pg.env
+    
+    restart: always
+
+volumes:
+  postgres_data:
